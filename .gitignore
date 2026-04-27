@@ -1,0 +1,16 @@
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# Supabase CLI local state
+supabase/.temp/
+supabase/.branches/
+
+# Node / Expo (added later)
+node_modules/
+.expo/
+dist/
+web-build/
+*.log
+.DS_Store
