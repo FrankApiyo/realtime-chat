@@ -3,6 +3,9 @@
 .env.local
 .env.*.local
 
+# Claude Code session state
+.claude/
+
 # Supabase CLI local state
 supabase/.temp/
 supabase/.branches/
