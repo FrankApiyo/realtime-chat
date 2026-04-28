@@ -7,7 +7,10 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
+import {
+  KeyboardAvoidingView,
+  useKeyboardState,
+} from 'react-native-keyboard-controller';
 import { useLocalSearchParams } from 'expo-router';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -38,6 +41,7 @@ export default function ChatScreen() {
   const me = session!.user.id;
   const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
+  const { isVisible: keyboardVisible } = useKeyboardState();
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -198,7 +202,12 @@ export default function ChatScreen() {
         </View>
       ))}
 
-      <View style={[styles.composer, { paddingBottom: 8 + insets.bottom }]}>
+      <View
+        style={[
+          styles.composer,
+          { paddingBottom: 8 + (keyboardVisible ? 0 : insets.bottom) },
+        ]}
+      >
         <TextInput
           value={input}
           onChangeText={onChangeText}
