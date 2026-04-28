@@ -2,6 +2,7 @@ import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { AuthProvider, useAuth } from '@/lib/auth';
 
 function RootStack() {
@@ -37,9 +38,11 @@ function RootStack() {
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <RootStack />
-      <StatusBar style="auto" />
-    </AuthProvider>
+    <KeyboardProvider>
+      <AuthProvider>
+        <RootStack />
+        <StatusBar style="auto" />
+      </AuthProvider>
+    </KeyboardProvider>
   );
 }

@@ -2,15 +2,16 @@ import { useEffect, useRef, useState } from 'react';
 import {
   Button,
   FlatList,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { useLocalSearchParams } from 'expo-router';
 import { RealtimeChannel } from '@supabase/supabase-js';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useHeaderHeight } from '@react-navigation/elements';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/lib/auth';
 
@@ -35,6 +36,8 @@ export default function ChatScreen() {
   const { id: conversationId } = useLocalSearchParams<{ id: string }>();
   const { session } = useAuth();
   const me = session!.user.id;
+  const insets = useSafeAreaInsets();
+  const headerHeight = useHeaderHeight();
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -164,7 +167,8 @@ export default function ChatScreen() {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      behavior="padding"
+      keyboardVerticalOffset={headerHeight}
       style={{ flex: 1 }}
     >
       <FlatList
@@ -194,7 +198,7 @@ export default function ChatScreen() {
         </View>
       ))}
 
-      <View style={styles.composer}>
+      <View style={[styles.composer, { paddingBottom: 8 + insets.bottom }]}>
         <TextInput
           value={input}
           onChangeText={onChangeText}
